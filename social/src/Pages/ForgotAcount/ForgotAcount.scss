@@ -1,0 +1,36 @@
+.forgotacount{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 65vh;
+    background-color: var(--body-color);
+    .ForgotPassword-wrap{
+        width: 600px;
+        .card-body{
+            form{
+                input{
+                    padding: 15px;
+                    font-size: 18px;
+                }
+                .button-wrap{
+                    display: flex;
+                    justify-content: flex-end;
+                    gap: 15px;
+                    button{
+                        border: none;
+                        outline: none;
+                        padding: 12px 30px;
+                        font-weight: 600;
+                    }
+                    .backbutton{
+                        background-color: var(--body-color);
+                        &:hover{
+                            background-color: rgb(161, 210, 245);
+                        }
+                    }
+                }
+
+            }
+        }
+    }
+}

@@ -1,0 +1,26 @@
+{
+  "name": "startered_template",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "server": "nodemon api/server.js",
+    "social": "npm start --prefix social",
+    "start": "concurrently \"npm run server\" \"npm run social\""
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "colors": "^1.4.0",
+    "concurrently": "^7.3.0",
+    "cors": "^2.8.5",
+    "deep-email-validator": "^0.1.21",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "mongoose": "^6.4.7",
+    "nodemailer": "^6.7.8",
+    "nodemon": "^2.0.19"
+  }
+}
