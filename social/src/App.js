@@ -7,7 +7,11 @@ import ResetPassword from './Pages/ResetPassword/ResetPassword';
 import Home from './Pages/Home/Home';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './App.scss';
+import Verify from './Pages/VerifyAcount/Verify';
+import VerifyCode from './Pages/VerifyAcount/VerifyCode';
+
 function App() {
+
   return (
     <div className="App">
       <ToastContainer
@@ -21,11 +25,12 @@ function App() {
           draggable
           pauseOnHover
         />
-
         <Routes>
           <Route path='/' element={<Home/>}/>
           <Route path='/login' element={<Login/>}/>
-          <Route path='/login/identify' element={<ForgotAcount/>}/>
+          <Route path='/verify/:id' element={<Verify/>}/>
+          <Route path='/verify/:id/verifyacount' element={<VerifyCode/>}/>
+          <Route path='/reset/identify' element={<ForgotAcount/>}/>
           <Route path='/reset/user/:token' element={<ResetPassword/>}/>
         </Routes>
     </div>

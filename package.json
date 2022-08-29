@@ -22,5 +22,5 @@
     "mongoose": "^6.4.7",
     "nodemailer": "^6.7.8",
     "nodemon": "^2.0.19"
-  }
+    }
 }

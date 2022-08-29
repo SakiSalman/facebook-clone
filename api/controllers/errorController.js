@@ -1,14 +1,15 @@
 
 
+
 // custom error controller
 
-
-export const customError = (status, msg) => {
-
+const customError = (status, message) =>{
     const err = new Error()
 
-    err.status = status
-    err.message = msg
+    err.status = status,
+    err.message = message
 
-    return err
+    return err;
 }
+
+export default customError;

@@ -6,7 +6,9 @@ import axios from 'axios'
 import 'bootstrap/js/dist/modal'
 import './Login.scss'
 import { ToastError, ToastSuccess } from '../../Utility/Alerts/Toast'
+
 const Login = () => {
+
     // Navigator using useNavigate
     const navigate = useNavigate()
     // State for input update
@@ -41,20 +43,21 @@ const Login = () => {
             
         }else{
 
-           await axios.post('http://localhost:5000/api/user', input)
+           await axios.post('http://localhost:5000/api/user/register', input)
             .then(
                 res => {
                     ToastSuccess('Registration Successfully Dne!')
-                    navigate('/')
+
+                    navigate(`/verify/${res.data._id}`)
 
                 }
             )
             .catch( err => {
                 ToastError('Registration not SuccessFull')
+                console.log(err);
             })
         }
     }
-    console.log(input);
 
     // Modal Show Hide State
     const [show, setShow] = useState(false);
@@ -63,6 +66,53 @@ const Login = () => {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
   
+    // Login Input state update
+    const [login, setLogin] = useState({
+        auth : '',
+        password : ''
+    })
+    // handle login inputs
+    const handleLoginInput = (e) => {
+
+        setLogin( (prev) => ({...prev, [e.target.name] : e.target.value}))
+    }
+    // handle login
+    const handleLogin = async (e) => {
+            e.preventDefault()
+
+            if (!login.auth || !login.password) {
+                ToastError('All Fields Are Required!')                
+            }else{
+
+                try {
+                   await axios.post(`http://localhost:5000/api/user/login/me`, {
+                    auth : login.auth,
+                    password : login.password
+                   })
+                   .then( res => {
+                        if (res.data.message === 'Acount Not Verified!') {
+                            ToastError('Enter Valid Email or Create New Account! ')
+                        }
+                        else if (res.data.message === 'Password Not matched!') {
+                            ToastError('Enter Valid Password ')
+                        }
+                        else if (res.data.message === 'Acount Not Verified!') {
+                            ToastError('Please Verify Your Account!')
+                            navigate(`/verify/${res.data.id}`)
+                        }else{
+                            navigate('/')
+                        }
+
+                   })
+                   .catch( err => {
+                    ToastError('Server Error!')
+                   })
+
+                } catch (error) {
+                    console.log(error);
+                }
+            }
+    }
   return (
     <div>
         {/* Login Form Section Start */}
@@ -79,9 +129,9 @@ const Login = () => {
                         <div className="login-card-wrap">
                             <div className="card card-shadow text-center">
                                 <div className="card-body">
-                                    <form action="">
-                                        <input type="text" name="auth" className="form-control mb-2" placeholder='Email Address or phone' />
-                                        <input type="text" name="password" className="form-control mb-2" placeholder='Password' />
+                                    <form onSubmit={handleLogin}>
+                                        <input type="text" onChange={handleLoginInput} name="auth" value={login.auth} className="form-control mb-2" placeholder='Email Address or phone' />
+                                        <input type="password" onChange={handleLoginInput} name="password" value={login.password} className="form-control mb-2" placeholder='Password' />
                                         <input type="submit" className='btn btn-primary  w-100 py-2' value="Log In" />
 
                                     </form>
@@ -142,6 +192,7 @@ const Login = () => {
 
                                     <div className="date-wraper">
                                     <select onChange={inputHandler} value={input.date} name="date" id="" className='form-select'>
+                                                <option value="">-Select-</option>
                                                 <option value="1">1</option>
                                                 <option value="2">2</option>
                                                 <option value="3">3</option>
@@ -149,14 +200,14 @@ const Login = () => {
                                                 <option value="1">5</option>
                                             </select>
                                         <select onChange={inputHandler} value={input.month} name="month" id="" className='form-select'>
-                                                <option value="1">1</option>
+                                                <option value="">-Select-</option>                                                <option value="1">1</option>
                                                 <option value="2">2</option>
                                                 <option value="3">3</option>
                                                 <option value="4">4</option>
 
                                             </select>
                                         <select onChange={inputHandler} value={input.year} name="year" id="" className="form-select" >
-                                                <option value="1998">1998</option>
+                                                <option value="">-Select-</option>                                                <option value="1998">1998</option>
                                                 <option value="1999">1999</option>
                                                 <option value="2000">2000</option>
                                                 <option value="2001">2001</option>

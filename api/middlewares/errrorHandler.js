@@ -1,24 +1,20 @@
 
 
 
-//ErrorHandler
+
+export const errorHandler = (error, req, res, next) => {
 
 
-const errorHandler = (error, req, res, next) => {
 
+    const errorstatus = error.status || 500
+    const errormessage = error.message || "unknown Error"
 
-    const errstatus = error.status || 500
-    const errmessage = error.message || "Unknown Error!"
-
-
-    return res.status(errstatus).json({
-        status : errstatus,
-        message : errmessage,
+    return res.status(errorstatus).json({
+        status : errorstatus,
+        message : errormessage,
         stack : error.stack
     })
 
+    next()
+
 }
-
-// export error handler
-
-export default errorHandler;
