@@ -9,6 +9,8 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import './App.scss';
 import Verify from './Pages/VerifyAcount/Verify';
 import VerifyCode from './Pages/VerifyAcount/VerifyCode';
+import AuthNavigate from './Navigate/Authnavigate';
+import UserNavigate from './Navigate/userNavigate';
 
 function App() {
 
@@ -26,12 +28,13 @@ function App() {
           pauseOnHover
         />
         <Routes>
-          <Route path='/' element={<Home/>}/>
-          <Route path='/login' element={<Login/>}/>
-          <Route path='/verify/:id' element={<Verify/>}/>
-          <Route path='/verify/:id/verifyacount' element={<VerifyCode/>}/>
-          <Route path='/reset/identify' element={<ForgotAcount/>}/>
-          <Route path='/reset/user/:token' element={<ResetPassword/>}/>
+          <Route path='/home' element={<AuthNavigate><Home/></AuthNavigate>}/>
+          <Route path='/login' element={<UserNavigate><Login/></UserNavigate>}/>
+          <Route path='/verify/:id' element={<UserNavigate><Verify/></UserNavigate>}/>
+          <Route path='/forgotpassword' element={<ForgotAcount/>}/>
+          <Route path='/verify/:id/verifyacount' element={<UserNavigate><VerifyCode/></UserNavigate>}/>
+          <Route path='/reset/identify' element={<UserNavigate><ForgotAcount/></UserNavigate>}/>
+          <Route path='/reset/user/:token' element={<UserNavigate><ResetPassword/></UserNavigate>}/>
         </Routes>
     </div>
   );

@@ -1,5 +1,5 @@
 import express from "express";
-import { createUser, deleteUser, getAllUsers, getsingelUser, registerUser, updateUser, userLogin, verifyUser } from "../controllers/userController.js";
+import { createUser, deleteUser, getAllUsers, getsingelUser, registerUser, updateUser, userLogin, verifyAcount, verifyUser } from "../controllers/userController.js";
 
 const router = express.Router()
 
@@ -10,6 +10,7 @@ const router = express.Router()
 router.post('/register', registerUser)
 router.post('/verifyuser', verifyUser)
 router.post('/login/me', userLogin)
+router.post('/forgotpassword', verifyAcount)
 
 // Rest Apis
 router.route('/').get(getAllUsers).post(createUser)

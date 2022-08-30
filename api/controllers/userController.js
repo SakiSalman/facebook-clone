@@ -292,3 +292,40 @@ export const userLogin = async (req, res, next) => {
         }
 }
 
+/**
+ * @access Public
+ * @Method POST
+ * @Routes api/verifyAcount
+ */
+
+export const verifyAcount = async (req, res, next) => {
+
+        // get user and password from client
+        const {email} = req.body
+        console.log(req.body);
+
+
+        try {
+            const user = await Users.findOne({
+                email : email
+            })
+            
+            if (!user) {
+                res.json({
+                    message : 'No acount found with this email!',
+                 })
+            }
+            if (user) {
+
+                res.send(user)
+
+                
+            }
+        } catch (error) {
+            next(404, 'Server error from Veify Acount for Forgot Password!')
+            res.send(error)
+        }
+}
+
+
+

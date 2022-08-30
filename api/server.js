@@ -11,7 +11,7 @@ import path, { resolve } from 'path'
 
 // app inititallization
 const app = express() 
-const __dirname = resolve()
+// const __dirname = resolve()
 
 // middlewares
 app.use(express.json())
@@ -37,10 +37,10 @@ mongoConnection();
 app.use('/api/user', userRouter)
 
 // add frontend
-app.use(express.static('build'))
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'build', 'index.html'))
-})
+// app.use(express.static('build'))
+// // app.get('*', (req, res) => {
+// //     res.sendFile(path.join(__dirname, 'build', 'index.html'))
+// // })
 
 
 
