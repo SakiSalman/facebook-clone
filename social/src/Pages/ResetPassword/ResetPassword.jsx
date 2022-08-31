@@ -1,8 +1,57 @@
-import React from 'react'
+import axios from 'axios'
+import React, { useEffect } from 'react'
+import { useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
+import { ToastError, ToastSuccess } from '../../Utility/Alerts/Toast'
 import LoginFooter from '../Footers/LoginFooter/LoginFooter'
 import './ResetPassword.scss'
 
 const ResetPassword = () => {
+
+    // params
+    const {id} = useParams()
+   const [user, setUser] = useState('')
+   const navigate = useNavigate()
+
+
+    useEffect(() => {
+        try {
+            axios.get(`http://localhost:5000/api/user/${id}`)
+            .then( res => {
+                setUser(res.data)
+            })
+            .catch( err => {
+                console.log(err);
+            })
+        } catch (error) {
+            console.log(error);
+        }
+ 
+   }, [user]);
+
+
+//    ssend Reset password Requiest
+   const handleresetcode = (e) => {
+            
+        e.preventDefault()
+
+    try {
+        axios.post('http://localhost:5000/api/user/resetpassword', user)
+        .then( res => {
+            ToastSuccess('Please Change Password!')
+            navigate(`/reset/password/${res.data._id}`)
+
+        })
+        .catch( err => {
+            ToastError('Email Does not Found!')
+        })
+    } catch (error) {
+        console.log(error);
+    }
+
+   }
+
+
   return (
     <>
     
@@ -22,28 +71,20 @@ const ResetPassword = () => {
                     <div className="row">
                         <div className="col-12">
                             
-                    <form action="#">
+                    <form onSubmit={handleresetcode}>
                         <div className="form-wrapper">
                             <div className="form-field">
                                     <div>
-                                        <input class="radiobuttonreset" type="radio" name="email" id="flexRadioDefault1"/>
-                                        <label class="form-check-label px-2" for="flexRadioDefault1">
-                                                Send Code Via codersaki98@gmail.com
+                                        <input className="radiobuttonreset" value={user.email} type="radio" name="email" id="flexRadioDefault1"/>
+                                        <label className="form-check-label px-2" htmlFor="flexRadioDefault1">
+                                                `Send Code Via {user.email}`
                                         </label>
                                     </div>
-
-                                    <div>
-                                        <input class="radiobuttonreset" type="radio" name="phone" id="flexRadioDefault1"/>
-                                        <label class="form-check-label px-2" for="flexRadioDefault1" >
-                                                send Code Via 01408971554
-                                        </label>
-                                    </div>
-                                    
 
                             </div>
                             <div className="user-info-box">
                                 <img src="https://www.pinclipart.com/picdir/middle/148-1486972_mystery-man-avatar-circle-clipart.png" alt="avatar" />
-                                <p>codersaki98@gmail.com</p>
+                                <p>{user.email}`</p>
                                 <p>facebook user</p>
                             </div>
                         </div>

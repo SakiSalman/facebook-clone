@@ -5,6 +5,8 @@ import userRouter from './routes/user.js'
 import {errorHandler} from "./middlewares/errrorHandler.js";
 import { mongoConnection } from "./config/db.js";
 import cors from 'cors';
+import cookie from "cookie-parser";
+
 import path, { resolve } from 'path'
 
 
@@ -23,10 +25,11 @@ app.use(cors())
 // dot env config
 dotenv.config()
 
+
 // Port import from ENV File
 const port = process.env.PORT
 
-
+app.use(cookie())
 // error handler initialization
 app.use(errorHandler)
 

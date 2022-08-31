@@ -1,11 +1,13 @@
 import axios from 'axios'
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
-import { ToastError } from '../../Utility/Alerts/Toast'
+import { Link, useNavigate } from 'react-router-dom'
+import { ToastError, ToastSuccess } from '../../Utility/Alerts/Toast'
 import LoginFooter from '../Footers/LoginFooter/LoginFooter'
 import './ForgotAcount.scss'
 
 const ForgotAcount = () => {
+    // Navigate 
+    const navgate = useNavigate()
 
     // update state for email
 
@@ -23,12 +25,13 @@ const ForgotAcount = () => {
         if (email) {
             
             try {
-                await  axios.post('http://localhost:5000/api/user/forgotpassword', email)
+                await  axios.post('http://localhost:5000/api/user/forgotpassword', {email})
             .then( res => {
-                console.log(res.data);
+                ToastSuccess('Please Verify Your Account!')
+                navgate(`/reset/user/${res.data._id}`)
             })
             .catch( err => {
-                console.log(err);
+                ToastError('Email Not Matched!')
             })
 
             } catch (error) {

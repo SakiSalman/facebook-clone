@@ -1,16 +1,21 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import LoginFooter from '../Footers/LoginFooter/LoginFooter'
 import { Modal } from 'react-bootstrap'
-import {useNavigate} from 'react-router-dom'
+import {Link, useNavigate} from 'react-router-dom'
 import axios from 'axios'
 import 'bootstrap/js/dist/modal'
 import './Login.scss'
 import { ToastError, ToastSuccess } from '../../Utility/Alerts/Toast'
+import cookie from 'js-cookie'
+import AuthContext from '../../Contexts/AuthContext'
 
 const Login = () => {
 
     // Navigator using useNavigate
     const navigate = useNavigate()
+
+    // call auth context
+    const {dispatch} = useContext(AuthContext)
     // State for input update
     const [input, setInput] = useState({
         fname : '',
@@ -90,8 +95,8 @@ const Login = () => {
                     password : login.password
                    })
                    .then( res => {
-                        if (res.data.message === 'Acount Not Verified!') {
-                            ToastError('Enter Valid Email or Create New Account! ')
+                        if (res.data.message === 'Account Not Found') {
+                            ToastError('Enter Valid Email or Create New Account!')
                         }
                         else if (res.data.message === 'Password Not matched!') {
                             ToastError('Enter Valid Password ')
@@ -100,11 +105,14 @@ const Login = () => {
                             ToastError('Please Verify Your Account!')
                             navigate(`/verify/${res.data.id}`)
                         }else{
+                            cookie.set('access_token', res.data.token)
+                            dispatch({type : "LOGIN_SUCCESS", payload : res.data.user})
                             navigate('/')
                         }
 
                    })
                    .catch( err => {
+                    console.log(err);
                     ToastError('Server Error!')
                    })
 
@@ -136,7 +144,7 @@ const Login = () => {
 
                                     </form>
                                    <div className="forgot-password-wrap">
-                                   <a href="#" className='forgot-password'>Forgot Password?</a>
+                                   <Link to={'/forgotPassword'} className='forgot-password'>Forgot Password?</Link>
                                    </div>
                                    <div className="create-new-aaccount">
                                    <hr />

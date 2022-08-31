@@ -8,7 +8,7 @@ import { useContext } from "react";
 import {Navigate} from 'react-router-dom'
 import AuthContext from "../Contexts/AuthContext";
 
-const AuthNavigate = ({children}) => {
+const AuthNavigateUser = ({children}) => {
 
     const {isLoggedIn} = useContext(AuthContext)
 
@@ -16,4 +16,4 @@ const AuthNavigate = ({children}) => {
 }
 
 
-export default AuthNavigate;
+export default AuthNavigateUser;
